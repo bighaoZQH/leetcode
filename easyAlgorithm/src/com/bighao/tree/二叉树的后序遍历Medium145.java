@@ -6,30 +6,37 @@ import java.util.List;
 
 /**
  * https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
- *
- * 二叉树的遍历。。
- * https://zhuanlan.zhihu.com/p/73438175?utm_source=qq
  */
-public class 二叉树的前序遍历Medium144 {
+public class 二叉树的后序遍历Medium145 {
 
 
     /**
      * 迭代
+     * 6 9 8 7 4 5 2 3 1
      */
-    public static List<Integer> preorderTraversal(TreeNode root) {
+    public static List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> reuslt = new LinkedList<>();
         if (root == null) {
             return reuslt;
         }
         Deque<TreeNode> stack = new LinkedList();
+        // 用来指向上一个打印的节点
+        TreeNode prev = null;
         while (!stack.isEmpty() || root != null) {
             while (root != null) {
-                reuslt.add(root.val);
                 stack.push(root);
                 root = root.left;
             }
             root = stack.pop();
-            root = root.right;
+            if (root.right == null || root.right == prev) {
+                reuslt.add(root.val);
+                // 将prev设置为当前节点
+                prev = root;
+                root = null;
+            } else {
+                stack.push(root);
+                root = root.right;
+            }
         }
         return reuslt;
     }
@@ -37,23 +44,23 @@ public class 二叉树的前序遍历Medium144 {
     /**
      * 递归
      */
-    public static List<Integer> preorderTraversal2(TreeNode root) {
+    public static List<Integer> postorderTraversal2(TreeNode root) {
         List<Integer> reuslt = new LinkedList<>();
         if (root == null) {
             return reuslt;
         }
-        preorderTraversalRecursion(root, reuslt);
+        postorderTraversalRecursion(root, reuslt);
         return reuslt;
     }
 
-    private static void preorderTraversalRecursion(TreeNode root, List<Integer> reuslt) {
-        reuslt.add(root.val);
+    private static void postorderTraversalRecursion(TreeNode root, List<Integer> reuslt) {
         if (root.left != null) {
-            preorderTraversalRecursion(root.left, reuslt);
+            postorderTraversalRecursion(root.left, reuslt);
         }
         if (root.right != null) {
-            preorderTraversalRecursion(root.right, reuslt);
+            postorderTraversalRecursion(root.right, reuslt);
         }
+        reuslt.add(root.val);
     }
 
 
@@ -75,7 +82,7 @@ public class 二叉树的前序遍历Medium144 {
         t3.right = t6;
         t6.left = t7;
         t7.right = t8;
-        List<Integer> result = preorderTraversal(root);
+        List<Integer> result = postorderTraversal(root);
         result.forEach(i -> System.out.print(i + " "));
     }
 
