@@ -35,7 +35,7 @@ package com.bighao.array;
  * return res;
  * }
  */
-public class CodeEasyArray70 {
+public class 爬楼梯Easy70 {
 
     /**
      * 爬楼梯
@@ -48,13 +48,13 @@ public class CodeEasyArray70 {
      * 因此递推出公式 f(n) = f(n-2) + f(n-1)
      */
     public static int climbStairs(int n) {
-        int q, w = 0, e = 1;
-        for (int i = 1; i <= n; i++) {
-            q = w;
-            w = e;
-            e = q + w;
+        int a, b = 0, c = 1;
+        for (int i = 0; i < n; i++) {
+            a = b;
+            b = c;
+            c = a + b;
         }
-        return e;
+        return c;
     }
 
     /**
