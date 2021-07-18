@@ -22,8 +22,10 @@ import java.util.Arrays;
  *   i指向不为0的位置，将所有非0的挪到前面，j指向当前非0要挪到的位置
  *   第一次循环完后，所有非0就都挪到前面了，再从j开始向后填充。
  *   即0,0,1,2,3,0,4 ==> 1,2,3,4,3,0,1 此时最后一个非0(即4)挪到的位置下标为3，从下标3开始向后填0
+ *
+ * 这里的双指针就是快慢指针
  */
-public class CodeEasyArray283 {
+public class 移动零Easy283 {
 
     /**
      * 方法1,双指针 i指向不为0的位置 j指向为0的位置
@@ -83,8 +85,8 @@ public class CodeEasyArray283 {
 
 
     public static void main(String[] args) {
-        int[] arr = new int[]{0, 1, 0, 3, 12};
-        moveZeroes2(arr);
+        int[] arr = new int[]{1,0,1};
+        moveZeroes(arr);
         System.out.println(Arrays.toString(arr));
     }
 
