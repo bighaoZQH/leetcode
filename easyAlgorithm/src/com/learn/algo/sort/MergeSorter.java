@@ -54,8 +54,9 @@ public class MergeSorter {
 
         // 从temp拷回data中
         // 从temp的left开始一直到right 拷贝回原数组
-        for (int k = left; k <= right; ) {
-            data[left++] = temp[k++];
+        while (left <= right) {
+            data[left] = temp[left];
+            left++;
         }
     }
 
