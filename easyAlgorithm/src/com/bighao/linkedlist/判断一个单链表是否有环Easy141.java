@@ -97,14 +97,4 @@ public class 判断一个单链表是否有环Easy141 {
     }
 
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-    }
-
 }

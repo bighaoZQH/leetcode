@@ -6,6 +6,8 @@ import java.util.Arrays;
  * @version 1.0
  * @author: bighao周启豪
  * @date 2021/7/24 18:32
+ *
+ * 归并排序
  */
 public class MergeSorter {
 

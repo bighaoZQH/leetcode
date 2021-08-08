@@ -124,15 +124,4 @@ public class 环形链表IIMedium142 {
         System.out.println(result == null ? null : result.val);
     }
 
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-    }
-
 }

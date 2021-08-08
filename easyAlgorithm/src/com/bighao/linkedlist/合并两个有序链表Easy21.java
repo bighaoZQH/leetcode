@@ -13,12 +13,13 @@ public class 合并两个有序链表Easy21 {
      * 递归
      */
     public static ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        } else if (l2 == null) {
-            return l1;
-        } else if (l1.val <= l2.val) {
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+
+        if (l1.val <= l2.val) {
+            // 子问题
             l1.next = mergeTwoLists2(l1.next, l2);
+            // 返回当前节点作为子问题的结果
             return l1;
         } else {
             l2.next = mergeTwoLists2(l1, l2.next);
@@ -29,28 +30,23 @@ public class 合并两个有序链表Easy21 {
     /**
      * 哨兵迭代
      */
-    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode newHead = new ListNode(0);
-        // 哨兵
-        ListNode temp = newHead;
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode();
 
+        ListNode prev = dummyHead;
         while (l1 != null && l2 != null) {
-            // 如果l1 < l2，就把l2挂到哨兵的next，否则就把l2挂到哨兵后面
             if (l1.val <= l2.val) {
-                ListNode t = l1;
+                prev.next = l1;
                 l1 = l1.next;
-                temp.next = t;
             } else {
-                ListNode t = l2;
+                prev.next = l2;
                 l2 = l2.next;
-                temp.next = t;
             }
-            // 向后移动哨兵
-            temp = temp.next;
+            prev = prev.next;
         }
         // 因为是排好序的，所以当其中一个链表遍历结束后，就把另一个链表的剩余部分直接放到哨兵后面就行了
-        temp.next = l1 == null ? l2 : l1;
-        return newHead.next;
+        prev.next = l1 == null ? l1 : l2;
+        return dummyHead.next;
     }
 
     public static void main(String[] args) {
@@ -75,21 +71,4 @@ public class 合并两个有序链表Easy21 {
         }
     }
 
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 }

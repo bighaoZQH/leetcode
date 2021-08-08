@@ -27,13 +27,13 @@ public class 反转链表Easy206 {
         if (head == null || head.next == null) {
             return head;
         }
-        // 这个n返回的永远都是原链表的最后一个节点
-        ListNode n = reverseList2(head.next);
-        // 将当前节点的下一个节点的next指向当前节点
+        // 这个newHead返回的永远都是原链表的最后一个节点
+        ListNode newHead = reverseList2(head.next);
+        // 反转 当前节点 和 当前节点的next  4->5 变成 5->4
         head.next.next = head;
         head.next = null;
         // 将原链表的最后一个节点作为链表头返回
-        return n;
+        return newHead;
     }
 
     /**
@@ -44,29 +44,30 @@ public class 反转链表Easy206 {
         ListNode cur = head;
         while (cur != null) {
             // 缓存当前节点的next节点
-            ListNode tmp = cur.next;
+            ListNode next = cur.next;
             // 将当前节点的next指向上一个节点
             cur.next = prev;
             // 准备下一次迭代：将原当前节点作为上一个节点，将原当前节点的next作为新的当前节点
             prev = cur;
-            cur = tmp;
+            cur = next;
         }
         return prev;
     }
-    /*public static ListNode reverseList(ListNode head) {
-        if (head == null) {
-            return head;
+
+    // 哨兵 其实不需要哨兵也能做
+    public ListNode reverseListByDummyHead(ListNode head) {
+        ListNode sentinel = new ListNode();
+
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode next = cur.next;
+            ListNode newHead = sentinel.next;
+            sentinel.next = cur;
+            cur.next = newHead;
+            cur = next;
         }
-        ListNode n = head.next;
-        head.next = null;
-        while (n != null) {
-            ListNode tmp = n.next;
-            n.next = head;
-            head = n;
-            n = tmp;
-        }
-        return head;
-    }*/
+        return sentinel.next;
+    }
 
     public static void main(String[] args) {
         ListNode l1 = new ListNode(1);
@@ -85,15 +86,6 @@ public class 反转链表Easy206 {
         while (temp != null) {
             System.out.println(temp.val);
             temp = temp.next;
-        }
-    }
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
         }
     }
 
