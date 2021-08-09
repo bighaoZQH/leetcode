@@ -15,9 +15,11 @@ public class 二叉树的后序遍历Medium145 {
      * 前序: parent -> left -> right
      * 变形: parent -> right -> left 反转得到后续==>
      * 后序: left -> right -> parent
+     *
+     * 当然这里反转可以改进下，我干脆添加的时候直接添加到list的表头就行了
      */
-    public List<Integer> postorderTraversal1(TreeNode root) {
-        List<Integer> reuslt = new ArrayList<>();
+    public List<Integer> postorderTraversalByDouma(TreeNode root) {
+        LinkedList<Integer> reuslt = new LinkedList<>();
         if (root == null) {
             return reuslt;
         }
@@ -25,7 +27,8 @@ public class 二叉树的后序遍历Medium145 {
         stack.push(root);
         while (!stack.isEmpty()) {
             TreeNode parent = stack.pop();
-            reuslt.add(parent.val);
+            //reuslt.add(parent.val);
+            reuslt.addFirst(parent.val);
             if (parent.left != null) {
                 stack.push(parent.left);
             }
@@ -35,7 +38,7 @@ public class 二叉树的后序遍历Medium145 {
             }
         }
         // 直接反转 得到的结果就是后序遍历的结果
-        Collections.reverse(reuslt);
+        //Collections.reverse(reuslt);
         return reuslt;
     }
 
