@@ -1,14 +1,43 @@
 package com.bighao.tree;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import com.bighao.tree.btree.TreeNode;
+
+import java.util.*;
 
 /**
  * https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
  */
 public class 二叉树的后序遍历Medium145 {
 
+
+    /**
+     * 老汤的迭代 根据前序遍历进行一个变形，然后反转
+     * 前序: parent -> left -> right
+     * 变形: parent -> right -> left 反转得到后续==>
+     * 后序: left -> right -> parent
+     */
+    public List<Integer> postorderTraversal1(TreeNode root) {
+        List<Integer> reuslt = new ArrayList<>();
+        if (root == null) {
+            return reuslt;
+        }
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode parent = stack.pop();
+            reuslt.add(parent.val);
+            if (parent.left != null) {
+                stack.push(parent.left);
+            }
+            // 先处理右子树
+            if (parent.right != null) {
+                stack.push(parent.right);
+            }
+        }
+        // 直接反转 得到的结果就是后序遍历的结果
+        Collections.reverse(reuslt);
+        return reuslt;
+    }
 
     /**
      * 迭代
@@ -20,7 +49,7 @@ public class 二叉树的后序遍历Medium145 {
             return reuslt;
         }
         Deque<TreeNode> stack = new LinkedList();
-        // 用来指向上一个打印的节点
+        // 用来指向上一个处理的节点
         TreeNode prev = null;
         while (!stack.isEmpty() || root != null) {
             while (root != null) {
@@ -28,12 +57,15 @@ public class 二叉树的后序遍历Medium145 {
                 root = root.left;
             }
             root = stack.pop();
+            // 如果当前节点没有右子树，或者其右子树已经被处理过了，则直接处理自己
             if (root.right == null || root.right == prev) {
                 reuslt.add(root.val);
                 // 将prev设置为当前节点
                 prev = root;
                 root = null;
             } else {
+                // 如果当前节点有右子节点，且还没处理过，
+                // 则还要把自己压入栈中，先处理完右子节点后，才能来处理自己
                 stack.push(root);
                 root = root.right;
             }
@@ -63,6 +95,16 @@ public class 二叉树的后序遍历Medium145 {
         reuslt.add(root.val);
     }
 
+    // 自己的迭代
+    private static void postorderTraversalRecursion2(TreeNode parent, List<Integer> reuslt) {
+        if (parent == null) {
+            return;
+        }
+        postorderTraversalRecursion(parent.left, reuslt);
+        postorderTraversalRecursion(parent.right, reuslt);
+        reuslt.add(parent.val);
+    }
+
 
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
@@ -86,25 +128,6 @@ public class 二叉树的后序遍历Medium145 {
         result.forEach(i -> System.out.print(i + " "));
     }
 
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 }
 
 

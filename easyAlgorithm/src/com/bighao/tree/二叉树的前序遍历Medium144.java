@@ -1,5 +1,9 @@
 package com.bighao.tree;
 
+
+import com.bighao.tree.btree.TreeNode;
+
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,20 +18,49 @@ public class 二叉树的前序遍历Medium144 {
 
 
     /**
+     * 迭代 自己写的 感觉比leetcode官方的要好理解
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> reuslt = new ArrayList<>();
+        if (root == null) {
+            return reuslt;
+        }
+        // 需要一个栈
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            // pop出parent节点
+            TreeNode parent = stack.pop();
+            reuslt.add(parent.val);
+            // 先把right节点压入栈中
+            if (parent.right != null) {
+                stack.push(parent.right);
+            }
+            // 再把left节点压入栈中，然后循环处理...
+            if (parent.left != null) {
+                stack.push(parent.left);
+            }
+        }
+        return reuslt;
+    }
+
+    /**
      * 迭代
      */
-    public static List<Integer> preorderTraversal(TreeNode root) {
+    public static List<Integer> preorderTraversal2(TreeNode root) {
         List<Integer> reuslt = new LinkedList<>();
         if (root == null) {
             return reuslt;
         }
         Deque<TreeNode> stack = new LinkedList();
         while (!stack.isEmpty() || root != null) {
+            // 先处理parent自己和其左节点
             while (root != null) {
                 reuslt.add(root.val);
                 stack.push(root);
                 root = root.left;
             }
+            // 再处理parent的右节点
             root = stack.pop();
             root = root.right;
         }
@@ -37,7 +70,7 @@ public class 二叉树的前序遍历Medium144 {
     /**
      * 递归
      */
-    public static List<Integer> preorderTraversal2(TreeNode root) {
+    public static List<Integer> preorderTraversalRecursion(TreeNode root) {
         List<Integer> reuslt = new LinkedList<>();
         if (root == null) {
             return reuslt;
@@ -55,49 +88,16 @@ public class 二叉树的前序遍历Medium144 {
             preorderTraversalRecursion(root.right, reuslt);
         }
     }
-
-
-    public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        TreeNode t1 = new TreeNode(2);
-        TreeNode t2 = new TreeNode(3);
-        TreeNode t3 = new TreeNode(4);
-        TreeNode t4 = new TreeNode(5);
-        TreeNode t5 = new TreeNode(6);
-        TreeNode t6 = new TreeNode(7);
-        TreeNode t7 = new TreeNode(8);
-        TreeNode t8 = new TreeNode(9);
-        root.left = t1;
-        root.right = t2;
-        t1.left = t3;
-        t1.right = t4;
-        t3.left = t5;
-        t3.right = t6;
-        t6.left = t7;
-        t7.right = t8;
-        List<Integer> result = preorderTraversal(root);
-        result.forEach(i -> System.out.print(i + " "));
+    // 自己写的，感觉比官方的要好
+    private void preorderTraversal(TreeNode root, List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        result.add(root.val);
+        preorderTraversal(root.right, result);
+        preorderTraversal(root.left, result);
     }
 
-
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 }
 
 

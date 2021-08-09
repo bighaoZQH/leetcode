@@ -80,7 +80,7 @@ public class 二叉树的中序遍历Medium94 {
             // 走到这里说明，root为null，此时已经走到最左了，然后弹出当前栈顶并打印
             root = stack.pop();
             list.add(root.val);
-            // 遍历右子树..
+            // 开始遍历右子树..
             root = root.right;
         }
         return list;
@@ -107,6 +107,17 @@ public class 二叉树的中序遍历Medium94 {
         if (root.right != null) {
             inorderTraversal(root.right, list);
         }
+    }
+
+    // 递归
+    public static void inorderTraversal2(TreeNode parent, List list) {
+        if (parent == null) {
+            return;
+        }
+
+        inorderTraversal(parent.left, list);
+        list.add(parent.val);
+        inorderTraversal(parent.right, list);
     }
 
 
