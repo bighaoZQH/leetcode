@@ -11,6 +11,7 @@ import java.util.Queue;
 public class 二叉树的层序遍历Medium102 {
 
 
+
     /**
      * BFS（广度优先搜索）
      */
@@ -20,25 +21,27 @@ public class 二叉树的层序遍历Medium102 {
             return result;
         }
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        queue.offer(root);
         while (!queue.isEmpty()) {
             List<Integer> list = new ArrayList<>();
             // 当前层级的节点个数
             int size = queue.size();
             for (int i = 0; i < size; i++) {
-                TreeNode node = queue.poll();
-                list.add(node.val);
-                if (node.left != null) {
-                    queue.add(node.left);
+                TreeNode parent = queue.poll();
+                list.add(parent.val);
+                if (parent.left != null) {
+                    queue.add(parent.left);
                 }
-                if (node.right != null) {
-                    queue.add(node.right);
+                if (parent.right != null) {
+                    queue.add(parent.right);
                 }
             }
             result.add(list);
         }
         return result;
     }
+
+
 
     /**
      * BFS 遍历使用队列数据结构
