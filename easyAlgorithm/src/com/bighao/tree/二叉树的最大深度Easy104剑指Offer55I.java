@@ -1,5 +1,9 @@
 package com.bighao.tree;
 
+import com.bighao.tree.btree.TreeNode;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -48,17 +52,38 @@ public class 二叉树的最大深度Easy104剑指Offer55I {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    public static void main(String[] args) {
-
+    /**
+     * 深度优先搜索 迭代
+     */
+    public int maxDepthByDFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int maxDepth = 0;
+        Deque<Node> stack = new ArrayDeque<>();
+        stack.push(new Node(root, 1));
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            maxDepth = Math.max(node.depth, maxDepth);
+            TreeNode parent = node.node;
+            if (parent.left != null) {
+                stack.push(new Node(parent.left, node.depth + 1));
+            }
+            if (parent.right != null) {
+                stack.push(new Node(parent.right, node.depth + 1));
+            }
+        }
+        return maxDepth;
     }
 
 
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) {
-            val = x;
+    private class Node {
+        TreeNode node;
+        int depth;
+
+        public Node(TreeNode node, int depth) {
+            this.node = node;
+            this.depth = depth;
         }
     }
 

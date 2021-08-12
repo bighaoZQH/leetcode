@@ -7,19 +7,17 @@ package com.bighao.tree;
 public class 翻转二叉树Easy226 {
 
     public TreeNode invertTree(TreeNode root) {
-        invert(root);
-        return root;
-    }
-
-    private void invert(TreeNode root) {
         if (root == null) {
-            return;
+            return root;
         }
-        invert(root.left);
-        invert(root.right);
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
+
+        TreeNode right = invertTree(root.left);
+        TreeNode left =  invertTree(root.right);
+
+        root.left = left;
+        root.right = right;
+
+        return root;
     }
 
     public static void main(String[] args) {
